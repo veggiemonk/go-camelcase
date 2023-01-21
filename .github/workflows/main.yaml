@@ -23,6 +23,8 @@ jobs:
         with:
           go-version: 1.19
       - name: go test
-        run: go test -v ./...
+        # issue: pattern ./...: directory prefix . does not contain main module or its selected dependencies
+        # see https://github.com/golangci/golangci-lint/issues/2654
+        run: go test -v github.com/veggiemonk/strcase/... # -coverprofile=coverage.txt -covermode=atomic
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v3
