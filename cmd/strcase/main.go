@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"runtime/debug"
 
 	"github.com/veggiemonk/strcase"
 )
@@ -64,6 +65,7 @@ func main() {
 
 	if hasOneArg {
 		checkHelp()
+		checkVersion()
 		stdin()
 	}
 
@@ -76,13 +78,13 @@ func main() {
 		for _, arg := range os.Args[2:] {
 			switch subcmd {
 			case "camel":
-				fmt.Println(strcase.CamelCase(arg))
+				fmt.Println(strcase.Camel(arg))
 			case "kebab":
-				fmt.Println(strcase.KebabCase(arg))
+				fmt.Println(strcase.Kebab(arg))
 			case "pascal":
-				fmt.Println(strcase.PascalCase(arg))
+				fmt.Println(strcase.Pascal(arg))
 			case "snake":
-				fmt.Println(strcase.SnakeCase(arg))
+				fmt.Println(strcase.Snake(arg))
 			default:
 				_, _ = fmt.Fprintf(
 					os.Stderr,
@@ -108,13 +110,13 @@ func stdin() {
 		line := scanner.Text()
 		switch subcmd {
 		case "camel":
-			fmt.Println(strcase.CamelCase(line))
+			fmt.Println(strcase.Camel(line))
 		case "kebab":
-			fmt.Println(strcase.KebabCase(line))
+			fmt.Println(strcase.Kebab(line))
 		case "pascal":
-			fmt.Println(strcase.PascalCase(line))
+			fmt.Println(strcase.Pascal(line))
 		case "snake":
-			fmt.Println(strcase.SnakeCase(line))
+			fmt.Println(strcase.Snake(line))
 		default:
 			_, _ = fmt.Fprintf(
 				os.Stderr,
@@ -141,4 +143,34 @@ func checkHelp() {
 			os.Exit(0)
 		}
 	}
+}
+
+func checkVersion() {
+	if len(os.Args) > 1 {
+		subcmd := os.Args[1]
+		isVersion := subcmd == "version" || subcmd == "-v" || subcmd == "--version"
+
+		if isVersion {
+			printVersion()
+			os.Exit(0)
+		}
+	}
+}
+
+var (
+	version = "dev"
+	commit  = "none"
+	date    = "unknown"
+)
+
+func printVersion() {
+	bi, ok := debug.ReadBuildInfo()
+	if !ok {
+		_, _ = fmt.Fprintln(os.Stderr, "error reading build-info")
+		os.Exit(1)
+	}
+	fmt.Printf("Build:\n%s\n", bi)
+	fmt.Printf("Version: %s\n", version)
+	fmt.Printf("Commit: %s\n", commit)
+	fmt.Printf("Date: %s\n", date)
 }
