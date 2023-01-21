@@ -22,11 +22,13 @@ jobs:
       - uses: actions/setup-go@v3
         with:
           go-version: 1.19
+      - uses: actions/checkout@v3
+#        with:
+#          fetch-depth: 1
       - name: go test
         # issue: pattern ./...: directory prefix . does not contain main module or its selected dependencies
         # see https://github.com/golangci/golangci-lint/issues/2654
-        run: |
-          ls -R
-          go test -v github.com/veggiemonk/strcase/... # -coverprofile=coverage.txt -covermode=atomic
+        # or, maybe, just maybe, I simply forgot to add actions/checkout like a dummy
+        run: go test -v ./... # -coverprofile=coverage.txt -covermode=atomic
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v3
