@@ -130,7 +130,6 @@ func stdin() {
 		fmt.Printf("error: %s\n", err)
 		os.Exit(1)
 	}
-	return
 }
 
 func checkHelp() {
