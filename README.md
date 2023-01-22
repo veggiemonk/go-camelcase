@@ -1,5 +1,9 @@
 # STRCASE
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/veggiemonk/strcase)](https://goreportcard.com/report/github.com/veggiemonk/strcase)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/veggiemonk/strcase/badge)](https://api.securityscorecards.dev/projects/github.com/veggiemonk/strcase)
+![License badge](https://img.shields.io/github/license/veggiemonk/strcase?style=flat)
+
 Forked from [segmentio](https://github.com/segmentio) repositories: 
 - [go-camelcase](https://github.com/segmentio/go-camelcase) License: MIT 
 - [go-snakecase](https://github.com/segmentio/go-snakecase) License: MIT
