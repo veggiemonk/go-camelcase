@@ -102,7 +102,15 @@ func ExampleKebab_long() {
 }
 
 func ExampleKebab_multiline() {
-	fmt.Println(Kebab("here\nis\na\nmultiline\nstring"))
+	fmt.Println(
+		Kebab(
+			`here
+is
+a
+multiline
+string`,
+		),
+	)
 	// Output:
 	// here-is-a-multiline-string
 }

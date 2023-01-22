@@ -97,7 +97,15 @@ func ExampleSnake_withSpace() {
 }
 
 func ExampleSnake_multiline() {
-	fmt.Println(Snake("here\nis\na\nmultiline\nstring"))
+	fmt.Println(
+		Snake(
+			`here
+is
+a
+multiline
+string`,
+		),
+	)
 	// Output:
 	// here_is_a_multiline_string
 }

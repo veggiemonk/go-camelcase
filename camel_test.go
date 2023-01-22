@@ -88,7 +88,15 @@ func ExampleCamel_long() {
 }
 
 func ExampleCamel_multiline() {
-	fmt.Println(Camel("here\nis\na\nmultiline\nstring"))
+	fmt.Println(
+		Camel(
+			`here
+is
+a
+multiline
+string`,
+		),
+	)
 	// Output:
 	// hereIsAMultilineString
 }

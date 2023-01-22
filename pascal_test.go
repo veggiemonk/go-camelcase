@@ -84,7 +84,15 @@ func ExamplePascal_long() {
 }
 
 func ExamplePascal_multiline() {
-	fmt.Println(Pascal("here\nis\na\nmultiline\nstring"))
+	fmt.Println(
+		Pascal(
+			`here
+is
+a
+multiline
+string`,
+		),
+	)
 	// Output:
 	// HereIsAMultilineString
 }

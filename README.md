@@ -31,7 +31,7 @@ It can convert any string to:
 > Note: 
 > 
 > the "dash" is actually an ASCII hyphen a.k.a "hyphen-minus" a.k.a "minus sign", unicode `U+002D`, 
-> represented as `&#x002D;` is often confused
+> represented as `&#x002D;`, is often confused
 > with "hyphen", unicode `U+2010`, represented as `&#x2010;`
 > or with "En Dash" unicode `U+2013`,  represented as `&#x2013;` .
 > 
@@ -121,4 +121,15 @@ go test -fuzz=FuzzCamelCase  -fuzztime=10s
 go test -fuzz=FuzzKebabCase  -fuzztime=10s
 go test -fuzz=FuzzPascalCase -fuzztime=10s
 go test -fuzz=FuzzSnakeCase  -fuzztime=10s
+```
+
+## Documentation
+
+The documentation is available on [pkg.go.dev](https://pkg.go.dev/github.com/veggiemonk/strcase).
+or run it locally 
+
+```shell
+go install golang.org/x/pkgsite/cmd/pkgsite@latest && pkgsite
+
+# open http://localhost:8080/github.com/veggiemonk/strcase
 ```
