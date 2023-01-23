@@ -1,29 +1,62 @@
 # This is an example .goreleaser.yml file with some sensible defaults.
 # Make sure to check the documentation at https://goreleaser.com
+project_name: strcase
+
 #before:
 #  hooks:
     # You may remove this if you don't use go modules.
 #    - go mod tidy
+
+gomod:
+  proxy: true
+
 builds:
   - id: strcase
     env:
       - CGO_ENABLED=0
+      - GO111MODULE=on
+#      - GOPROXY=https://proxy.golang.org,direct
     goos:
       - linux
       - windows
       - darwin
     goarch:
-        - amd64
-        - arm64
-        - arm
+      - amd64
+      - arm64
+      - arm
     main: ./cmd/strcase/main.go
+    flags:
+      - -trimpath='true'
+      - -buildmode='exe'
+      - -extldflags "-static"
+      - -buildvcs='true'
+      - -compiler='gc'
+#      - -mod=readonly
     ldflags:
       - >
-        -extldflags "-static" -s -w
+        -s -w
         -X main.version={{ .Version }}
         -X main.commit={{ .Commit }}
         -X main.date={{ .Date }}
         -X main.builtBy=goreleaser
+
+docker_signs:
+  - artifacts: manifests
+    stdin: '{{ .Env.COSIGN_PWD }}'
+
+kos:
+  - repository: ghcr.io/veggiemonk/strcase # Defaults to the value of $KO_DOCKER_REPO.
+    platforms:
+      - linux/amd64
+      - linux/arm64
+    tags:
+      - latest
+      - '{{.Tag}}'
+#      - '{{.Os}}-{{.Arch}}-{{.Tag}}'
+    sbom: spdx
+    bare: true
+    preserve_import_paths: false
+#    base_import_paths: true
 
 archives:
   - format: tar.gz
