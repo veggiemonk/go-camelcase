@@ -11,6 +11,7 @@ gomod:
   proxy: true
 
 builds:
+
   - id: strcase
     env:
       - CGO_ENABLED=0
@@ -18,23 +19,38 @@ builds:
 #      - GOPROXY=https://proxy.golang.org,direct
     goos:
       - linux
-      - windows
       - darwin
     goarch:
       - amd64
       - arm64
-      - arm
     main: ./cmd/strcase/main.go
     flags:
-      - -trimpath='true'
-      - -buildmode='exe'
-      - -extldflags "-static"
-      - -buildvcs='true'
-      - -compiler='gc'
-#      - -mod=readonly
+      - -trimpath
     ldflags:
       - >
         -s -w
+        -extldflags "-static"
+        -X main.version={{ .Version }}
+        -X main.commit={{ .Commit }}
+        -X main.date={{ .Date }}
+        -X main.builtBy=goreleaser
+
+  - id: strcase-windows
+    env:
+      - CGO_ENABLED=0
+      - GO111MODULE=on
+    goos:
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    main: ./cmd/strcase/main.go
+    flags:
+      - -trimpath
+    ldflags:
+      - >
+        -s -w
+        -extldflags "-static"
         -X main.version={{ .Version }}
         -X main.commit={{ .Commit }}
         -X main.date={{ .Date }}
@@ -45,18 +61,29 @@ docker_signs:
     stdin: '{{ .Env.COSIGN_PWD }}'
 
 kos:
-  - repository: ghcr.io/veggiemonk/strcase # Defaults to the value of $KO_DOCKER_REPO.
+  - id: strcase
+    # repository: ghcr.io/veggiemonk/strcase # Defaults to the value of $KO_DOCKER_REPO.
     platforms:
       - linux/amd64
       - linux/arm64
     tags:
       - latest
       - '{{.Tag}}'
-#      - '{{.Os}}-{{.Arch}}-{{.Tag}}'
+      # - '{{.Os}}-{{.Arch}}-{{.Tag}}'
     sbom: spdx
     bare: true
-    preserve_import_paths: false
-#    base_import_paths: true
+    flags:
+      - -trimpath
+    ldflags:
+      - > 
+        -s -w
+        -extldflags "-static"
+        -X main.version={{ .Version }}
+        -X main.commit={{ .Commit }}
+        -X main.date={{ .Date }}
+        -X main.builtBy=goreleaser
+    # preserve_import_paths: false
+    # base_import_paths: true
 
 archives:
   - format: tar.gz

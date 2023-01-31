@@ -3,7 +3,7 @@ name: goreleaser
 on:
   push:
     tags:
-      - '*'
+      - '202*' # ex: 2023-01-22-6a52eb0
 
 permissions:  # added using https://github.com/step-security/secure-workflows
   contents: read
@@ -16,9 +16,12 @@ jobs:
     steps:
       - name: Set up Go
         uses: actions/setup-go@6edd4406fa81c3da01a34fa6f6343087c207a568 # v3.5.0
+        with:
+          go-version: 1.19
+          # cache: true
       - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
         with:
-          fetch-depth: 0
+          fetch-depth: 0 # this is important, otherwise it won't checkout the full tree (i.e. no previous tags)
       - name: cosign-installer
         uses: sigstore/cosign-installer@9becc617647dfa20ae7b1151972e9b3a2c338a2b # v2.8.1
       - name: Run GoReleaser
@@ -26,9 +29,10 @@ jobs:
         with:
           distribution: goreleaser # either 'goreleaser' (default) or 'goreleaser-pro'
           version: latest
-          args: release --rm-dist
+          args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COSIGN_PWD: ${{ secrets.COSIGN_PWD }}
+          KO_DOCKER_REPO: ghcr.io/veggiemonk/strcase
           # Your GoReleaser Pro key, if you are using the 'goreleaser-pro' distribution
           # GORELEASER_KEY: ${{ secrets.GORELEASER_KEY }}%
