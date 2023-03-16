@@ -62,10 +62,10 @@ import (
 )
 
 func main() {
-    fmt.Println(sc.CamelCase("hello world"))  // helloWorld
-    fmt.Println(sc.PascalCase("hello world")) // HelloWorld
-    fmt.Println(sc.KebabCase("hello world"))  // hello_world
-    fmt.Println(sc.SnakeCase("hello world"))  // hello-world
+    fmt.Println(sc.Camel("hello world"))  // helloWorld
+    fmt.Println(sc.Pascal("hello world")) // HelloWorld
+    fmt.Println(sc.Kebab("hello world"))  // hello_world
+    fmt.Println(sc.Snake("hello world"))  // hello-world
 }
 ```
 
