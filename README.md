@@ -64,8 +64,8 @@ import (
 func main() {
     fmt.Println(sc.Camel("hello world"))  // helloWorld
     fmt.Println(sc.Pascal("hello world")) // HelloWorld
-    fmt.Println(sc.Kebab("hello world"))  // hello_world
-    fmt.Println(sc.Snake("hello world"))  // hello-world
+    fmt.Println(sc.Kebab("hello world"))  // hello-world
+    fmt.Println(sc.Snake("hello world"))  // hello_world
 }
 ```
 
